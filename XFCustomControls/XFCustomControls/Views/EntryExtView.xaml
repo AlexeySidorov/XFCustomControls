@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XFCustomControls.Views.EntryExtView"
+             xmlns:ext="clr-namespace:XFCustomControls.Ext;assembly=XFCustomControls.Ext"
+             Title="EntryExtView"
+             >
+    <StackLayout Padding="40">
+        <Label Text="MaxLength" />
+        <ext:Entry MaxLength="{Binding MaxLength}" Placeholder="MaxLength" Text="123456789" />
+    </StackLayout>    
+</ContentPage>
