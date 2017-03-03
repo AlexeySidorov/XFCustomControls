@@ -60,7 +60,7 @@ namespace XFCustomControls.Ext
                 if (e.Item == null) return;
                 if (this.InfiniteScrollCommand == null) return;
 
-                if (e.Item == items[Math.Max(items.Count - 4, 0)] && this.InfiniteScrollCommand.CanExecute(e.Item))
+                if (e.Item == items[items.Count - 1] && this.InfiniteScrollCommand.CanExecute(e.Item))
                     this.InfiniteScrollCommand.Execute(e.Item);
             };
         }
