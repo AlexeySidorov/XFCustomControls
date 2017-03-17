@@ -1,6 +1,7 @@
 # XF Custom Controls Ext
 
-The XF Custom Controls Ext adding some missing fetuares to controls like Entry, Slides and ListView.
+This library adds some non-existent functionality to controls such as ListView, Entry, Picker, and Slider.
+
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
