@@ -1,4 +1,4 @@
-xml# XF Custom Controls
+# XF Custom Controls
 
 This library adds some non-existent functionality to controls such as ListView, Entry, Picker, and Slider.
 
