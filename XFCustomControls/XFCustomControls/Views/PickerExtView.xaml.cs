@@ -10,12 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace XFCustomControls.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterView : ContentPage
+    public partial class PickerExtView : ContentPage
     {
-        public MasterView()
+        public PickerExtView()
         {
             InitializeComponent();
-            this.BindingContext = new ViewModels.MasterViewModel();
+            BindingContext = new ViewModels.PickerViewModel();
         }
     }
 }

@@ -1,34 +1,37 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace XFCustomControls.ViewModels
 {
-    internal class ListViewExtViewModel : ViewModel
+    public class ListViewExtViewModel : ViewModel
     {
-        public ObservableCollection<string> Views { get; set; }
-        public ICommand ItemTappedCommand { get; set; }
+        private int _index = 0;
+
+        public ObservableCollection<string> Items { get; set; }
+        public Command ItemTappedCommand { get; set; }
+        public Command InfiniteScrollCommand { get; set; }
 
         public ListViewExtViewModel()
         {
-            this.Views = new ObservableCollection<string>();
-            this.Views.Add(nameof(XFCustomControls.Views.SliderExtView));
-            this.Views.Add(nameof(XFCustomControls.Views.EntryExtView));
+            this.Items = new ObservableCollection<string>();
+            this.AddItems(20);
 
-            this.ItemTappedCommand = new Command(item =>
+            this.ItemTappedCommand = new Command(async item =>
             {
-                switch (item.ToString())
-                {
-                    case nameof(XFCustomControls.Views.SliderExtView):
-                        App.Current.MainPage.Navigation.PushAsync(new Views.SliderExtView());
-                        break;
-                    case nameof(XFCustomControls.Views.EntryExtView):
-                        App.Current.MainPage.Navigation.PushAsync(new Views.EntryExtView());
-                        break;
-                    default:
-                        break;
-                }
+                await App.Current.MainPage.DisplayAlert("ListViewExt", item.ToString(), "Ok");
             });
+
+            this.InfiniteScrollCommand = new Command(item =>
+            {
+                if (_index < 100)
+                    this.AddItems(10);
+            });
+        }
+
+        private void AddItems(int count)
+        {
+            for (int i = 0; i < count; i++)
+                this.Items.Add($"Item {_index++}");
         }
     }
 }

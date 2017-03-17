@@ -6,8 +6,10 @@
              >
     <ScrollView Padding="40">
         <StackLayout>
-            <Button Text="Slider" Command="{Binding NavigateCommand}" CommandParameter="SliderExtView" />
             <Button Text="Entry" Command="{Binding NavigateCommand}" CommandParameter="EntryExtView" />
+            <Button Text="ListView" Command="{Binding NavigateCommand}" CommandParameter="ListViewExtView" />
+            <Button Text="Picker" Command="{Binding NavigateCommand}" CommandParameter="PickerExtView" />
+            <Button Text="Slider" Command="{Binding NavigateCommand}" CommandParameter="SliderExtView" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

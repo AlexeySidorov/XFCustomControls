@@ -5,8 +5,10 @@
              xmlns:ext="clr-namespace:XFCustomControls.Ext;assembly=XFCustomControls.Ext"
              Title="ListViewExtView">
     <StackLayout Padding="10">
-        <ext:ListView ItemsSource="{Binding Views}" 
-                      ItemTappedCommand="{Binding ItemTappedCommand}">
+        <ext:ListView ItemsSource="{Binding Items}" 
+                      ItemTappedCommand="{Binding ItemTappedCommand}"
+                      InfiniteScrollCommand="{Binding InfiniteScrollCommand}"
+                      >
             
         </ext:ListView>
     </StackLayout>

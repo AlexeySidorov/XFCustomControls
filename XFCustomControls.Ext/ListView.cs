@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,7 +14,10 @@ namespace XFCustomControls.Ext
         public ICommand ItemTappedCommand
         {
             get { return (ICommand)GetValue(ItemTappedCommandProperty); }
-            set { SetValue(ItemTappedCommandProperty, value); }
+            set
+            {
+                SetValue(ItemTappedCommandProperty, value);
+            }
         }
 
         public static readonly BindableProperty InfiniteScrollCommandProperty =
@@ -26,7 +28,10 @@ namespace XFCustomControls.Ext
         public ICommand InfiniteScrollCommand
         {
             get { return (ICommand)GetValue(InfiniteScrollCommandProperty); }
-            set { SetValue(InfiniteScrollCommandProperty, value); }
+            set
+            {
+                SetValue(InfiniteScrollCommandProperty, value);
+            }
         }
 
         public ListView() : base()
@@ -41,28 +46,24 @@ namespace XFCustomControls.Ext
 
         private void Initialize()
         {
-            this.ItemTapped += (sender, e) =>
+            ItemAppearing += InfiniteListView_ItemAppearing;
+            ItemTapped += ListView_ItemTapped;
+        }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (ItemTappedCommand != null && ItemTappedCommand.CanExecute(null))
+                ItemTappedCommand.Execute(e.Item);
+        }
+
+        private void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
+            var items = ItemsSource as IList;
+            if (items != null && e.Item == items[items.Count - 1])
             {
-                if (this.ItemTappedCommand == null) return;
-                if (e.Item == null) return;
-
-                if (this.ItemTappedCommand.CanExecute(e))
-                {
-                    this.ItemTappedCommand.Execute(e.Item);
-                    this.SelectedItem = null;
-                }
-            };
-
-            this.ItemAppearing += (sender, e) => {
-                var items = this.ItemsSource as IList;
-
-                if (items == null) return;
-                if (e.Item == null) return;
-                if (this.InfiniteScrollCommand == null) return;
-
-                if (e.Item == items[items.Count - 1] && this.InfiniteScrollCommand.CanExecute(e.Item))
-                    this.InfiniteScrollCommand.Execute(e.Item);
-            };
+                if (InfiniteScrollCommand != null && InfiniteScrollCommand.CanExecute(null))
+                    InfiniteScrollCommand.Execute(null);
+            }
         }
     }
 }

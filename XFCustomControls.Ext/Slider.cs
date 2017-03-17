@@ -17,7 +17,7 @@ namespace XFCustomControls.Ext
             get { return (ICommand)GetValue(ValueChangedCommandProperty); }
             set { SetValue(ValueChangedCommandProperty, value); }
         }
-        
+
         public static readonly BindableProperty ValueChangedCommandParameterProperty =
             BindableProperty.Create("ValueChangedCommandParameter",
                                     typeof(object),

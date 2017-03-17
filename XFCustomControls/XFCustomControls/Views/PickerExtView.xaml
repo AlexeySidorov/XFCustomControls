@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XFCustomControls.Views.PickerExtView"             
+             xmlns:ext="clr-namespace:XFCustomControls.Ext;assembly=XFCustomControls.Ext"
+             Title="PickerExt">
+    <StackLayout Padding="40">
+        <Label Text="{Binding SelectedItem}" />
+
+        <Entry Text="{Binding NewItem}" Placeholder="New Item" />
+        <Button Text="Add new Item" Command="{Binding AddNewItemCommand}" />
+
+        <ext:Picker ItemsSource="{Binding Items}" 
+                    SelectedItem="{Binding SelectedItem}"
+                    SelectedItemChangedCommand="{Binding SelectedItemChangedCommand}" />
+    </StackLayout>
+</ContentPage>

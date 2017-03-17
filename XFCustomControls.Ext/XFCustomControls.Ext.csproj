@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Entry.cs" />
     <Compile Include="ListView.cs" />
+    <Compile Include="Picker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slider.cs" />
   </ItemGroup>

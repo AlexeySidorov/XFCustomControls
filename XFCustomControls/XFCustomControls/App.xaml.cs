@@ -7,7 +7,7 @@ namespace XFCustomControls
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new Views.ListViewExtView());
+            MainPage = new NavigationPage(new Views.MasterView());
         }
     }
 }
