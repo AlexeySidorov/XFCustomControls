@@ -7,38 +7,33 @@ namespace XFCustomControls.Ext
     public class ListView : Xamarin.Forms.ListView
     {
         public static readonly BindableProperty ItemTappedCommandProperty =
-          BindableProperty.Create("ItemTappedCommand",
+          BindableProperty.Create(nameof(ItemTappedCommand),
                             typeof(ICommand),
                             typeof(ListView),
                             null);
         public ICommand ItemTappedCommand
         {
             get { return (ICommand)GetValue(ItemTappedCommandProperty); }
-            set
-            {
-                SetValue(ItemTappedCommandProperty, value);
-            }
+            set { SetValue(ItemTappedCommandProperty, value); }
         }
 
         public static readonly BindableProperty InfiniteScrollCommandProperty =
-            BindableProperty.Create("InfiniteScrollCommand",
+            BindableProperty.Create(nameof(InfiniteScrollCommand),
                     typeof(ICommand),
                     typeof(ListView),
                     null);
         public ICommand InfiniteScrollCommand
         {
             get { return (ICommand)GetValue(InfiniteScrollCommandProperty); }
-            set
-            {
-                SetValue(InfiniteScrollCommandProperty, value);
-            }
+            set { SetValue(InfiniteScrollCommandProperty, value); }
         }
 
-        public ListView() : base()
+        public ListView()
+            : base()
         {
             Initialize();
         }
-        public ListView(Xamarin.Forms.ListViewCachingStrategy cachingStrategy)
+        public ListView(ListViewCachingStrategy cachingStrategy)
             : base(cachingStrategy)
         {
             Initialize();
@@ -59,7 +54,7 @@ namespace XFCustomControls.Ext
         private void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             var items = ItemsSource as IList;
-            if (items != null && e.Item == items[items.Count - 1])
+            if (items != null && e.Item == items[items.Count - 3])
             {
                 if (InfiniteScrollCommand != null && InfiniteScrollCommand.CanExecute(null))
                     InfiniteScrollCommand.Execute(null);

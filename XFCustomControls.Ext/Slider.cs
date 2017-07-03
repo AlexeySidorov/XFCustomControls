@@ -7,7 +7,7 @@ namespace XFCustomControls.Ext
     public class Slider : Xamarin.Forms.Slider
     {
         public static readonly BindableProperty ValueChangedCommandProperty =
-            BindableProperty.Create("ValueChangedCommand",
+            BindableProperty.Create(nameof(ValueChangedCommand),
                                     typeof(ICommand),
                                     typeof(Slider),
                                     null,
@@ -19,7 +19,7 @@ namespace XFCustomControls.Ext
         }
 
         public static readonly BindableProperty ValueChangedCommandParameterProperty =
-            BindableProperty.Create("ValueChangedCommandParameter",
+            BindableProperty.Create(nameof(ValueChangedCommandParameter),
                                     typeof(object),
                                     typeof(Slider),
                                     null,
@@ -28,17 +28,6 @@ namespace XFCustomControls.Ext
         {
             get { return GetValue(ValueChangedCommandParameterProperty); }
             set { SetValue(ValueChangedCommandParameterProperty, value); }
-        }
-
-        void OnCommandChanged()
-        {
-            if (ValueChangedCommand != null)
-            {
-                ValueChangedCommand.CanExecuteChanged += CommandCanExecuteChanged;
-                CommandCanExecuteChanged(this, EventArgs.Empty);
-            }
-            else
-                IsEnabled = true;
         }
 
         protected override void OnPropertyChanging(string propertyName = null)
@@ -53,7 +42,18 @@ namespace XFCustomControls.Ext
             base.OnPropertyChanging(propertyName);
         }
 
-        void CommandCanExecuteChanged(object sender, EventArgs eventArgs)
+        private void OnCommandChanged()
+        {
+            if (ValueChangedCommand != null)
+            {
+                ValueChangedCommand.CanExecuteChanged += CommandCanExecuteChanged;
+                CommandCanExecuteChanged(this, EventArgs.Empty);
+            }
+            else
+                IsEnabled = true;
+        }
+
+        private void CommandCanExecuteChanged(object sender, EventArgs eventArgs)
         {
             ICommand cmd = ValueChangedCommand;
             if (cmd != null)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
 namespace XFCustomControls.ViewModels
@@ -17,6 +12,13 @@ namespace XFCustomControls.ViewModels
             set { SetProperty(ref _selectedItem, value); }
         }
 
+        private EnumItems _enumSelectedItem;
+        public EnumItems EnumSelectedItem
+        {
+            get { return _enumSelectedItem; }
+            set { SetProperty(ref _enumSelectedItem, value); }
+        }
+
         private string _newItem;
         public string NewItem
         {
@@ -25,9 +27,12 @@ namespace XFCustomControls.ViewModels
         }
 
         public ObservableCollection<string> Items { get; set; }
-
         public Command SelectedItemChangedCommand { get; set; }
         public Command AddNewItemCommand { get; set; }
+
+        public EnumItems EnumItems { get; set; }
+        public Command EnumSelectedItemChangedCommand { get; set; }
+        public Command EnumAddNewItemCommand { get; set; }
 
         public PickerViewModel()
         {
@@ -36,8 +41,10 @@ namespace XFCustomControls.ViewModels
                 this.Items.Add($"Item {i}");
 
             this.SelectedItem = this.Items[0];
+            this.EnumSelectedItem = EnumItems.Enum4;
 
-            AddNewItemCommand = new Command(o => {
+            AddNewItemCommand = new Command(o =>
+            {
                 this.Items.Add(this.NewItem);
                 this.NewItem = string.Empty;
             });
@@ -47,5 +54,13 @@ namespace XFCustomControls.ViewModels
                 await App.Current.MainPage.DisplayAlert("Picker", $"Selected Item {item.ToString()}", "Ok");
             });
         }
+    }
+
+    public enum EnumItems
+    {
+        Enum1,
+        Enum2,
+        Enum3,
+        Enum4,
     }
 }

@@ -13,5 +13,10 @@
         <ext:Picker ItemsSource="{Binding Items}" 
                     SelectedItem="{Binding SelectedItem}"
                     SelectedItemChangedCommand="{Binding SelectedItemChangedCommand}" />
+        
+        <Label Text="Enums" />
+        <ext:Picker ItemsSource="{Binding EnumItems}" 
+                    SelectedItem="{Binding EnumSelectedItem}"
+                    SelectedItemChangedCommand="{Binding SelectedItemChangedCommand}" />
     </StackLayout>
 </ContentPage>

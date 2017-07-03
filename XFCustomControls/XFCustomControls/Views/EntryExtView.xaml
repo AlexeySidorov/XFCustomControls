@@ -7,6 +7,11 @@
              >
     <StackLayout Padding="40">
         <Label Text="MaxLength" />
-        <ext:Entry MaxLength="{Binding MaxLength}" Placeholder="MaxLength" Text="123456789" />
+        <ext:Entry MaxLength="{Binding MaxLength}" 
+                   Placeholder="MaxLength" 
+                   Text="{Binding Text}" 
+                   CompletedCommand="{Binding CompletedCommand}"
+                   CompletedCommandParameter="Confirm Command Parameter"
+                   />
     </StackLayout>    
 </ContentPage>

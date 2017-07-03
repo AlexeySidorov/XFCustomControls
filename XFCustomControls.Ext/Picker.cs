@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -9,34 +10,35 @@ namespace XFCustomControls.Ext
 {
     public class Picker : Xamarin.Forms.Picker
     {
-        public static readonly BindableProperty ItemsSourceProperty =
-            BindableProperty.Create("ItemsSource",
-                                    typeof(IEnumerable<object>),
-                                    typeof(Picker),
-                                    null,
-                                    propertyChanged: (bo, o, n) => ((Picker)bo).OnItemsSourcePropertyChanged());
+        private IEnumerable<object> _objectItems;
 
-        public IEnumerable<object> ItemsSource
+        public static readonly new BindableProperty ItemsSourceProperty =
+            BindableProperty.Create(nameof(ItemsSource),
+                            typeof(object),
+                            typeof(Picker),
+                            null,
+                            propertyChanged: (bo, o, n) => ((Picker)bo).OnItemsSourcePropertyChanged());
+        public new object ItemsSource
         {
-            get { return (IEnumerable<object>)GetValue(ItemsSourceProperty); }
+            get { return GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
-        public static readonly BindableProperty SelectedItemProperty =
-            BindableProperty.Create("SelectedItem",
+        public static readonly new BindableProperty SelectedItemProperty =
+            BindableProperty.Create(nameof(SelectedItem),
                                     typeof(object),
                                     typeof(Picker),
                                     null,
                                     defaultBindingMode: BindingMode.TwoWay,
                                     propertyChanged: (bo, o, n) => ((Picker)bo).OnSelectedItemPropertyChanged());
-        public object SelectedItem
+        public new object SelectedItem
         {
             get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
         public static readonly BindableProperty SelectedItemChangedCommandProperty =
-                               BindableProperty.Create("SelectedItemChangedCommand",
+                               BindableProperty.Create(nameof(SelectedItemChangedCommand),
                                                        typeof(ICommand),
                                                        typeof(Picker),
                                                        null,
@@ -49,7 +51,33 @@ namespace XFCustomControls.Ext
 
         public Picker()
         {
-            this.SelectedIndexChanged += (sender, e ) => this.SelectedItem = this.ItemsSource.ElementAt(this.SelectedIndex);
+            this.SelectedIndexChanged += (sender, e) => this.SelectedItem = this._objectItems.ElementAt(this.SelectedIndex);
+        }
+
+        private void OnItemsSourcePropertyChanged()
+        {
+            this._objectItems = this.CastObjectToList();
+
+            this.PopulatedByIEnumerableItems(this._objectItems);
+
+            if (this.ItemsSource is INotifyCollectionChanged notifyCollection)
+                this.AssignNotifyCollectionItems(notifyCollection);
+        }
+
+        private IEnumerable<object> CastObjectToList()
+        {
+            if (this.ItemsSource is Enum)
+            {
+                var items = new List<object>();
+                foreach (var item in Enum.GetValues(this.ItemsSource.GetType()))
+                    items.Add(item);
+
+                return items;
+            }
+            else if (this.ItemsSource is IEnumerable)
+                return ItemsSource as IEnumerable<object>;
+
+            return null;
         }
 
         private void OnSelectedItemPropertyChanged()
@@ -64,19 +92,10 @@ namespace XFCustomControls.Ext
         private int IndexOf(object value)
         {
             var comparer = EqualityComparer<object>.Default;
-            var found = this.ItemsSource
+            var found = this._objectItems
                 .Select((a, i) => new { a, i })
                 .FirstOrDefault(x => comparer.Equals(x.a, value));
             return found == null ? -1 : found.i;
-        }
-
-        private void OnItemsSourcePropertyChanged()
-        {
-            this.PopulatedByIEnumerableItems(this.ItemsSource);
-
-            var notifyCollection = this.ItemsSource as INotifyCollectionChanged;
-            if (notifyCollection != null)
-                this.AssignNotifyCollectionItems(notifyCollection);
         }
 
         private void AssignNotifyCollectionItems(INotifyCollectionChanged items)
@@ -94,7 +113,7 @@ namespace XFCustomControls.Ext
                             this.RemoveItem(item);
                         break;
                     case NotifyCollectionChangedAction.Reset:
-                        this.PopulatedByIEnumerableItems(this.ItemsSource);
+                        this.PopulatedByIEnumerableItems(this._objectItems);
                         break;
                     //TODO
                     case NotifyCollectionChangedAction.Move:
